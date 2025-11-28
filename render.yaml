@@ -1,0 +1,33 @@
+services:
+  - type: web
+    name: imis-backend
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: DATABASE_URL
+        value: sqlite:///./imis_new.db
+      - key: SECRET_KEY
+        value: a8f5f167f44f4964e6c998dee827110c
+      - key: ALGORITHM
+        value: HS256
+      - key: ACCESS_TOKEN_EXPIRE_MINUTES
+        value: 30
+      - key: MTN_MOMO_ENABLED
+        value: false
+      - key: MTN_MOMO_ENVIRONMENT
+        value: production
+      - key: MTN_MOMO_BASE_URL
+        value: https://proxy.momoapi.mtn.co.rw
+      - key: MTN_MOMO_SUBSCRIPTION_KEY
+        value: 92e0ee9794d34ac8bb166d2cd3b99a69
+      - key: MTN_MOMO_API_USER
+        value: 24a14d7b-57b2-46a6-ba5c-4c17f628eb9e
+      - key: MTN_MOMO_API_KEY
+        value: 2ac93c3f60304fdaa6f9ad2f591f0834
+      - key: MTN_MOMO_TARGET_ENVIRONMENT
+        value: mtnrwanda
+      - key: MTN_MOMO_CALLBACK_HOST
+        value: www.IMIS.sp
+      - key: MTN_MOMO_ACCOUNT
+        value: FRI:41414644/MM
