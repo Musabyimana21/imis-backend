@@ -20,10 +20,9 @@ app.add_middleware(
     allow_origins=[
         "http://localhost:5173",
         "http://localhost:3000",
-        "https://*.pages.dev",
-        "https://*.cloudflare.com",
         "https://imis-frontend.pages.dev",
-        "https://imis-backend.onrender.com"
+        "https://imis-backend.onrender.com",
+        "https://imis-backend-wk7z.onrender.com"
     ],
     allow_credentials=False,
     allow_methods=["*"],
