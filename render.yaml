@@ -7,7 +7,7 @@ services:
     startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
     envVars:
       - key: DATABASE_URL
-        value: sqlite:///./imis_new.db
+        sync: false
       - key: SECRET_KEY
         value: a8f5f167f44f4964e6c998dee827110c
       - key: ALGORITHM
