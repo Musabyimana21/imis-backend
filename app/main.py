@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from .core.database import engine, Base
 from .api import (
     auth, items, messages, admin, anonymous,
-    enhanced_items, enhanced_messages, enhanced_admin, payments, chat
+    enhanced_items, enhanced_messages, enhanced_admin, payments, chat, manual_payments
 )
 
 app = FastAPI(
@@ -44,6 +44,7 @@ async def startup():
 # Include all routers
 app.include_router(anonymous.router, prefix="/api")
 app.include_router(chat.router, prefix="/api")
+app.include_router(manual_payments.router, prefix="/api")
 app.include_router(auth.router, prefix="/api")
 app.include_router(enhanced_items.router, prefix="/api")
 app.include_router(enhanced_messages.router, prefix="/api")

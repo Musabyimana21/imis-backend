@@ -142,15 +142,37 @@ class MTNMoMoService:
                 
         except Exception as e:
             print(f"Payment exception: {e}")
+            from .payment_alternatives import PaymentAlternatives
+            alt_payments = PaymentAlternatives()
+            payment_info = alt_payments.get_payment_instructions(amount)
+            
             return {
                 "success": False,
                 "error": "MTN Mobile Money temporarily unavailable",
+                "payment_reference": payment_info["reference"],
                 "alternatives": {
-                    "airtel_money": "Send to *182*7*1# or call +250788123456",
-                    "bank_transfer": "Bank of Kigali: 123456789 (IMIS Rwanda)",
-                    "cash_payment": "Visit our office in Kigali for cash payment"
+                    "airtel_money": {
+                        "name": "Airtel Money",
+                        "code": "*182*7*1#",
+                        "instructions": f"Dial *182*7*1# → Send Money → {payment_info['reference']}"
+                    },
+                    "bank_transfer": {
+                        "name": "Bank of Kigali",
+                        "account": "123456789",
+                        "instructions": f"Transfer {amount} RWF to 123456789. Reference: {payment_info['reference']}"
+                    },
+                    "tigo_cash": {
+                        "name": "Tigo Cash",
+                        "code": "*144#",
+                        "instructions": f"Dial *144# → Send Money → Reference: {payment_info['reference']}"
+                    },
+                    "manual_verification": {
+                        "whatsapp": "+250780460621",
+                        "instructions": f"Send payment screenshot to WhatsApp +250780460621 with reference: {payment_info['reference']}"
+                    }
                 },
                 "support_contact": "+250780460621",
+                "verification_time": "2-5 minutes after payment",
                 "technical_error": str(e)
             }
     
