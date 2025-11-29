@@ -24,6 +24,7 @@ app.add_middleware(
         "https://imis-backend.onrender.com",
         "https://imis-backend-wk7z.onrender.com"
     ],
+    allow_origin_regex=r"https://.*\.pages\.dev",
     allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
