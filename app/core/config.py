@@ -17,7 +17,7 @@ class Settings(BaseSettings):
     MTN_MOMO_SUBSCRIPTION_KEY: Optional[str] = None
     MTN_MOMO_API_USER: Optional[str] = None
     MTN_MOMO_API_KEY: Optional[str] = None
-    MTN_MOMO_CALLBACK_URL: Optional[str] = "http://localhost:8001/api/anonymous/payment/callback"
+    MTN_MOMO_CALLBACK_URL: Optional[str] = None
     MTN_MOMO_CALLBACK_HOST: Optional[str] = None
     MTN_MOMO_TARGET_ENVIRONMENT: str = "mtnrwanda"
     MTN_MOMO_ACCOUNT: Optional[str] = None
