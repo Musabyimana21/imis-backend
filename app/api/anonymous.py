@@ -110,46 +110,13 @@ def report_item_anonymous(item: AnonymousItemCreate, db: Session = Depends(get_d
 @router.get("/items")
 def get_all_items(db: Session = Depends(get_db)):
     """Get all items (no login required)"""
-    # Get items from both tables
-    anonymous_items = db.query(AnonymousItem).filter(AnonymousItem.is_active == True).all()
-    regular_items = db.query(Item).filter(Item.is_active == True).all()
-    
-    # Convert regular items to anonymous format for consistency
-    all_items = []
-    
-    # Add anonymous items
-    for item in anonymous_items:
-        all_items.append(item)
-    
-    # Add regular items with proper conversion
-    for item in regular_items:
-        # Create a simple dict that will be serialized properly
-        item_dict = {
-            "id": item.id + 1000,  # Offset to avoid ID conflicts
-            "title": item.title,
-            "description": item.description,
-            "category": item.category.value if hasattr(item.category, 'value') else str(item.category).lower(),
-            "status": item.status.value if hasattr(item.status, 'value') else str(item.status).lower(),
-            "location_name": item.location_name,
-            "latitude": item.latitude,
-            "longitude": item.longitude,
-            "image_url": item.primary_image_url,
-            "created_at": item.created_at.isoformat() if item.created_at else None,
-            "updated_at": item.updated_at.isoformat() if item.updated_at else None,
-            "is_active": item.is_active,
-            "reporter_name": "Contact Available",
-            "reporter_phone": "Pay to Unlock",
-            "tracking_code": f"REG{item.id:06d}"
-        }
-        # Create a simple object that FastAPI can serialize
-        class ItemResponse:
-            def __init__(self, **kwargs):
-                for k, v in kwargs.items():
-                    setattr(self, k, v)
-        
-        all_items.append(ItemResponse(**item_dict))
-    
-    return all_items
+    try:
+        # Get anonymous items only to avoid enum issues
+        anonymous_items = db.query(AnonymousItem).filter(AnonymousItem.is_active == True).all()
+        return anonymous_items
+    except Exception as e:
+        print(f"Error in get_all_items: {e}")
+        raise HTTPException(status_code=500, detail=f"Failed to load items: {str(e)}")
 
 @router.get("/track/{tracking_code}")
 def track_item(tracking_code: str, db: Session = Depends(get_db)):
@@ -164,7 +131,7 @@ def initiate_payment(payment: PaymentCreate, db: Session = Depends(get_db)):
     """Initiate REAL MTN Mobile Money payment with dynamic pricing"""
     try:
         from ..services.pricing import PricingService
-        from ..services.mtn_momo import MTNMoMoService
+        from ..services.mtn_production import mtn_service
         
         # Get the item to determine category and pricing
         item = db.query(AnonymousItem).filter(AnonymousItem.id == payment.item_id).first()
@@ -190,30 +157,29 @@ def initiate_payment(payment: PaymentCreate, db: Session = Depends(get_db)):
         db.commit()
         
         # Initiate REAL MTN MoMo payment
-        momo_service = MTNMoMoService()
-        payment_result = momo_service.request_to_pay(
-            phone=payment.payer_phone,
+        payment_result = mtn_service.request_payment(
+            phone_number=payment.payer_phone,
             amount=unlock_price,
-            reference_id=transaction_id
+            external_id=transaction_id,
+            description="IMIS Contact Unlock"
         )
         
         if payment_result.get("success"):
             return {
                 "success": True,
-                "transaction_id": transaction_id,
+                "transaction_id": payment_result.get("reference_id"),
                 "amount": unlock_price,
                 "category": item.category,
                 "pricing_info": pricing_info,
-                "message": f"REAL PAYMENT: {unlock_price} RWF charged to {payment.payer_phone}. Check your phone for PIN prompt."
+                "message": payment_result.get("message")
             }
         else:
-            # Update payment status to failed
             db_payment.status = "failed"
             db.commit()
             return {
                 "success": False,
                 "error": payment_result.get("error", "Payment failed"),
-                "message": f"MTN Payment failed: {payment_result.get('error', 'Unknown error')}"
+                "message": payment_result.get("error", "Payment request failed")
             }
             
     except Exception as e:
@@ -224,9 +190,9 @@ def initiate_payment(payment: PaymentCreate, db: Session = Depends(get_db)):
         }
 
 @router.get("/payment/status/{transaction_id}")
-def check_payment_status(transaction_id: str, db: Session = Depends(get_db)):
+def check_payment_status_endpoint(transaction_id: str, db: Session = Depends(get_db)):
     """Check payment status with MTN MoMo"""
-    from ..services.mtn_momo import MTNMoMoService
+    from ..services.mtn_production import mtn_service
     from ..services.pricing import PricingService
     
     payment = db.query(AnonymousPayment).filter(AnonymousPayment.transaction_id == transaction_id).first()
@@ -234,8 +200,7 @@ def check_payment_status(transaction_id: str, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="Transaction not found")
     
     # Check with MTN MoMo
-    momo_service = MTNMoMoService()
-    status_result = momo_service.check_payment_status(transaction_id)
+    status_result = mtn_service.check_status(transaction_id)
     
     # Update payment status
     if status_result.get("status") == "SUCCESSFUL":
@@ -301,7 +266,7 @@ def payment_callback(request: dict, db: Session = Depends(get_db)):
 @router.post("/payment/confirm/{transaction_id}")
 def confirm_payment(transaction_id: str, db: Session = Depends(get_db)):
     """Manual payment confirmation (fallback)"""
-    return check_payment_status(transaction_id, db)
+    return check_payment_status_endpoint(transaction_id, db)
 
 @router.post("/chat/send")
 def send_message(msg: ChatMessageCreate, db: Session = Depends(get_db)):

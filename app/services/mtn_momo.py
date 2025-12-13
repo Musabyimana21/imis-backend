@@ -86,8 +86,7 @@ class MTNMoMoService:
             "X-Reference-Id": reference_id,
             "X-Target-Environment": self.target_environment,
             "Ocp-Apim-Subscription-Key": self.subscription_key,
-            "Content-Type": "application/json",
-            "User-Agent": "IMIS/1.0"
+            "Content-Type": "application/json"
         }
         
         # Format phone number for Rwanda (0788123456 -> 250788123456)
@@ -113,8 +112,7 @@ class MTNMoMoService:
                 "partyId": phone
             },
             "payerMessage": "Payment for IMIS item unlock",
-            "payeeNote": f"IMIS unlock fee - {amount} RWF",
-
+            "payeeNote": f"IMIS unlock fee - {amount} RWF"
         }
         
         print(f"Payment request URL: {url}")

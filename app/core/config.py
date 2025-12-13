@@ -21,6 +21,7 @@ class Settings(BaseSettings):
     MTN_MOMO_CALLBACK_HOST: Optional[str] = None
     MTN_MOMO_TARGET_ENVIRONMENT: str = "mtnrwanda"
     MTN_MOMO_ACCOUNT: Optional[str] = None
+    MTN_MOMO_MERCHANT_MSISDN: Optional[str] = None
     
     # Airtel Money API
     AIRTEL_MONEY_ENABLED: bool = False

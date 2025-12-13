@@ -5,6 +5,7 @@ from .api import (
     auth, items, messages, admin, anonymous,
     enhanced_items, enhanced_messages, enhanced_admin, payments, chat, manual_payments
 )
+from .api import manual_payment_fix
 
 app = FastAPI(
     title="IMIS API - Complete System",
@@ -19,6 +20,7 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "http://localhost:5173",
+        "http://localhost:5178",
         "http://localhost:3000",
         "https://imis-frontend.pages.dev",
         "https://imis-backend.onrender.com",
@@ -45,6 +47,7 @@ async def startup():
 app.include_router(anonymous.router, prefix="/api")
 app.include_router(chat.router, prefix="/api")
 app.include_router(manual_payments.router, prefix="/api")
+app.include_router(manual_payment_fix.router, prefix="/api")
 app.include_router(auth.router, prefix="/api")
 app.include_router(enhanced_items.router, prefix="/api")
 app.include_router(enhanced_messages.router, prefix="/api")

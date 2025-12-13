@@ -209,31 +209,15 @@ def get_payment_methods():
             {
                 "id": "mtn_momo",
                 "name": "MTN Mobile Money",
-                "description": "Pay using MTN Mobile Money",
+                "description": "Pay instantly using MTN Mobile Money",
                 "icon": "📱",
                 "requires_phone": True,
-                "processing_time": "Instant",
-                "fees": "No additional fees"
-            },
-            {
-                "id": "airtel_money",
-                "name": "Airtel Money",
-                "description": "Pay using Airtel Money",
-                "icon": "📱",
-                "requires_phone": True,
-                "processing_time": "Instant",
-                "fees": "No additional fees"
-            },
-            {
-                "id": "bank",
-                "name": "Bank Transfer",
-                "description": "Pay via bank transfer",
-                "icon": "🏦",
-                "requires_phone": False,
-                "processing_time": "Up to 24 hours",
-                "fees": "Bank charges may apply"
+                "processing_time": "Instant (5-30 seconds)",
+                "fees": "No additional fees",
+                "enabled": True
             }
         ],
+        "note": "Only MTN Mobile Money is currently supported.",
         "unlock_fee": 1000.0,
         "currency": "RWF",
         "commission_rate": 0.10

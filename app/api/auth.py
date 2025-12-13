@@ -5,9 +5,11 @@ from ..core.security import verify_password, get_password_hash, create_access_to
 from ..models.enhanced_models import User
 from ..models.schemas import UserCreate, UserLogin, Token, UserResponse
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
+from typing import Optional
 
 router = APIRouter(prefix="/auth", tags=["auth"])
 security = HTTPBearer()
+security_optional = HTTPBearer(auto_error=False)
 
 @router.post("/register", response_model=UserResponse)
 def register(user: UserCreate, db: Session = Depends(get_db)):
@@ -44,7 +46,7 @@ def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(securit
         raise HTTPException(status_code=401, detail="User not found")
     return user
 
-def get_current_user_optional(credentials: HTTPAuthorizationCredentials = Depends(security), db: Session = Depends(get_db)):
+def get_current_user_optional(credentials: Optional[HTTPAuthorizationCredentials] = Depends(security_optional), db: Session = Depends(get_db)):
     """Optional authentication - returns user if valid token, None otherwise"""
     try:
         if not credentials:

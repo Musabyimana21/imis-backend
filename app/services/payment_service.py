@@ -11,7 +11,7 @@ import hmac
 import json
 import requests
 from ..core.config import settings
-from .mtn_momo_service import mtn_momo_service
+from .mtn_production import mtn_service
 
 logger = logging.getLogger(__name__)
 
@@ -109,172 +109,61 @@ class PaymentService:
         return f"IMIS_{datetime.now().strftime('%Y%m%d_%H%M%S')}_{uuid.uuid4().hex[:8].upper()}"
     
     def _process_mtn_momo_payment(self, payment: Payment) -> Dict:
-        """Process MTN Mobile Money payment with real API integration"""
+        """Process MTN Mobile Money payment - PRODUCTION"""
         try:
-            # Check if MTN MoMo is configured
-            if mtn_momo_service.is_configured():
-                # Use real MTN MoMo API
-                result = mtn_momo_service.request_to_pay(
-                    amount=payment.amount,
-                    phone_number=payment.phone_number,
-                    external_id=payment.transaction_id,
-                    payer_message=f"IMIS: Unlock contact for item",
-                    payee_note=f"Payment for item #{payment.item_id}"
-                )
-                
-                if result["success"]:
-                    payment.external_reference = result["reference_id"]
-                    payment.status = PaymentStatus.PENDING
-                    self.db.commit()
-                    
-                    instructions = f"""
-                    ✅ Payment request sent to your MTN phone!
-                    
-                    Please check your phone and:
-                    1. You will receive a prompt on {payment.phone_number}
-                    2. Enter your MTN Mobile Money PIN
-                    3. Confirm the payment of {payment.amount} RWF
-                    
-                    Reference: {payment.transaction_id}
-                    
-                    The payment will be verified automatically.
-                    """
-                    
-                    return {
-                        "success": True,
-                        "instructions": instructions,
-                        "reference": result["reference_id"],
-                        "message": result["message"]
-                    }
-                else:
-                    return {"success": False, "message": result.get("message", "MTN MoMo payment failed")}
-            else:
-                # Fallback to simulation mode
-                logger.info("MTN MoMo not configured, using simulation mode")
-                instructions = f"""
-                🧪 SIMULATION MODE (MTN API not configured)
-                
-                To complete your payment:
-                1. Dial *182*7*1# on your MTN phone
-                2. Enter merchant code: 123456
-                3. Enter amount: {payment.amount} RWF
-                4. Enter reference: {payment.transaction_id}
-                5. Enter your PIN to confirm
-                
-                Or send money to: 0788123456
-                Reference: {payment.transaction_id}
-                
-                ⚠️ In production, this will use real MTN MoMo API
-                """
-                
-                api_response = self._simulate_momo_api_call(payment)
-                
-                if api_response["success"]:
-                    payment.external_reference = api_response["reference"]
-                    payment.status = PaymentStatus.PENDING
-                    self.db.commit()
-                    
-                    return {
-                        "success": True,
-                        "instructions": instructions,
-                        "reference": api_response["reference"],
-                        "simulation": True
-                    }
-                else:
-                    return {"success": False, "message": "Payment simulation failed"}
-                
-        except Exception as e:
-            logger.error(f"MTN MoMo payment error: {e}")
-            return {"success": False, "message": "MTN MoMo payment processing failed"}
-    
-    def _process_airtel_money_payment(self, payment: Payment) -> Dict:
-        """Process Airtel Money payment"""
-        try:
-            instructions = f"""
-            To complete your payment:
-            1. Dial *182*2*1# on your Airtel phone
-            2. Enter merchant code: 654321
-            3. Enter amount: {payment.amount} RWF
-            4. Enter reference: {payment.transaction_id}
-            5. Enter your PIN to confirm
+            if not mtn_service.is_configured():
+                return {"success": False, "message": "MTN MoMo not configured. Please contact support."}
             
-            Or send money to: 0732123456
-            Reference: {payment.transaction_id}
-            """
+            # Request payment via MTN API
+            result = mtn_service.request_payment(
+                phone_number=payment.phone_number,
+                amount=payment.amount,
+                external_id=payment.transaction_id,
+                description=f"IMIS: Unlock contact for item #{payment.item_id}"
+            )
             
-            # Simulate API call
-            api_response = self._simulate_airtel_api_call(payment)
-            
-            if api_response["success"]:
-                payment.external_reference = api_response["reference"]
+            if result["success"]:
+                payment.external_reference = result["reference_id"]
                 payment.status = PaymentStatus.PENDING
                 self.db.commit()
+                
+                instructions = f"""
+✅ Payment request sent to {result.get('phone', payment.phone_number)}!
+
+Please:
+1. Check your MTN phone for a payment prompt
+2. Enter your MTN Mobile Money PIN
+3. Confirm payment of {int(payment.amount)} RWF
+
+Reference: {payment.transaction_id}
+
+Payment will be verified automatically within seconds.
+                """
                 
                 return {
                     "success": True,
                     "instructions": instructions,
-                    "reference": api_response["reference"]
+                    "reference": result["reference_id"]
                 }
             else:
-                return {"success": False, "message": "Airtel Money payment failed"}
+                return {
+                    "success": False,
+                    "message": result.get("message", "Payment request failed")
+                }
                 
         except Exception as e:
-            logger.error(f"Airtel Money payment error: {e}")
-            return {"success": False, "message": "Airtel Money payment processing failed"}
+            logger.error(f"MTN payment error: {e}")
+            return {"success": False, "message": "Payment processing failed"}
+    
+    def _process_airtel_money_payment(self, payment: Payment) -> Dict:
+        """Airtel Money not supported - MTN only"""
+        return {"success": False, "message": "Only MTN Mobile Money is supported. Please use MTN MoMo."}
     
     def _process_bank_payment(self, payment: Payment) -> Dict:
-        """Process bank payment"""
-        try:
-            instructions = f"""
-            Bank Payment Details:
-            
-            Bank: Bank of Kigali
-            Account Name: Ishakiro IMIS
-            Account Number: 00123456789
-            Reference: {payment.transaction_id}
-            Amount: {payment.amount} RWF
-            
-            Please use the reference number when making the payment.
-            Payment will be verified within 24 hours.
-            """
-            
-            payment.status = PaymentStatus.PENDING
-            self.db.commit()
-            
-            return {
-                "success": True,
-                "instructions": instructions
-            }
-            
-        except Exception as e:
-            logger.error(f"Bank payment error: {e}")
-            return {"success": False, "message": "Bank payment processing failed"}
+        """Bank payment not supported - MTN only"""
+        return {"success": False, "message": "Only MTN Mobile Money is supported. Please use MTN MoMo."}
     
-    def _simulate_momo_api_call(self, payment: Payment) -> Dict:
-        """Simulate MTN MoMo API call with timeout protection"""
-        try:
-            # Quick simulation - no network calls
-            return {
-                "success": True,
-                "reference": f"MTN_{uuid.uuid4().hex[:12].upper()}",
-                "status": "PENDING"
-            }
-        except Exception as e:
-            logger.error(f"MoMo API simulation error: {e}")
-            return {"success": False, "error": "API call failed"}
-    
-    def _simulate_airtel_api_call(self, payment: Payment) -> Dict:
-        """Simulate Airtel Money API call with timeout protection"""
-        try:
-            # Quick simulation - no network calls
-            return {
-                "success": True,
-                "reference": f"AIR_{uuid.uuid4().hex[:12].upper()}",
-                "status": "PENDING"
-            }
-        except Exception as e:
-            logger.error(f"Airtel API simulation error: {e}")
-            return {"success": False, "error": "API call failed"}
+
     
     def verify_payment(self, payment_id: int) -> Dict:
         """Verify payment status"""
@@ -307,34 +196,27 @@ class PaymentService:
             return {"success": False, "message": "Payment verification failed"}
     
     def _verify_mobile_money_payment(self, payment: Payment) -> Dict:
-        """Verify mobile money payment status with real API check"""
+        """Verify MTN Mobile Money payment status"""
         try:
-            # If MTN MoMo is configured and we have external reference, check real status
-            if payment.payment_method == "mtn_momo" and payment.external_reference and mtn_momo_service.is_configured():
-                result = mtn_momo_service.check_payment_status(payment.external_reference)
-                
-                if result["success"]:
-                    status = result.get("status", "").upper()
+            if payment.payment_method == "mtn_momo" and payment.external_reference:
+                if mtn_service.is_configured():
+                    result = mtn_service.check_status(payment.external_reference)
                     
-                    if status == "SUCCESSFUL":
-                        return {"success": True, "status": "completed"}
-                    elif status == "FAILED":
-                        return {"success": False, "status": "failed"}
-                    else:
-                        return {"success": True, "status": "pending"}
-                else:
-                    # If API check fails, fall back to time-based simulation
-                    logger.warning(f"MTN status check failed, using fallback: {result.get('message')}")
+                    if result["success"]:
+                        status = result.get("status", "").upper()
+                        
+                        if status == "SUCCESSFUL":
+                            return {"success": True, "status": "completed"}
+                        elif status == "FAILED":
+                            return {"success": False, "status": "failed"}
+                        else:
+                            return {"success": True, "status": "pending"}
             
-            # Fallback: Quick verification - auto-complete after 30 seconds for testing
-            time_since_creation = datetime.utcnow() - payment.created_at
+            # If no external reference or check failed, keep pending
+            return {"success": True, "status": "pending"}
             
-            if time_since_creation > timedelta(seconds=30):
-                return {"success": True, "status": "completed"}
-            else:
-                return {"success": True, "status": "pending"}
         except Exception as e:
-            logger.error(f"Mobile money verification error: {e}")
+            logger.error(f"Payment verification error: {e}")
             return {"success": False, "status": "failed"}
     
     def _verify_bank_payment(self, payment: Payment) -> Dict:
