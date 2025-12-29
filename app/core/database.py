@@ -9,13 +9,10 @@ if "sqlite" in settings.DATABASE_URL:
     # SQLite configuration
     connect_args = {"check_same_thread": False}
 elif "postgresql" in settings.DATABASE_URL:
-    # PostgreSQL configuration with SSL for production
+    # PostgreSQL configuration - disable SSL for Render compatibility
     connect_args = {
-        "sslmode": "prefer",
-        "connect_timeout": 60,
-        "sslcert": None,
-        "sslkey": None,
-        "sslrootcert": None
+        "sslmode": "disable",
+        "connect_timeout": 60
     }
 else:
     connect_args = {}
