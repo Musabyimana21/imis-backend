@@ -41,23 +41,23 @@ class User(Base):
     __table_args__ = {'extend_existing': True}
     
     id = Column(Integer, primary_key=True, index=True)
-    email = Column(String, unique=True, index=True, nullable=False)
-    hashed_password = Column(String, nullable=False)
-    full_name = Column(String, nullable=False)
-    phone = Column(String)
+    email = Column(String(255), unique=True, index=True, nullable=False)
+    hashed_password = Column(String(255), nullable=False)
+    full_name = Column(String(255), nullable=False)
+    phone = Column(String(20))
     role = Column(Enum(UserRole), default=UserRole.USER)
     is_active = Column(Boolean, default=True)
     is_verified = Column(Boolean, default=False)
-    verification_code = Column(String)
-    reset_token = Column(String)
+    verification_code = Column(String(10))
+    reset_token = Column(String(255))
     last_login = Column(DateTime)
     created_at = Column(DateTime, default=datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
     
     # Profile info
-    avatar_url = Column(String)
+    avatar_url = Column(String(500))
     bio = Column(Text)
-    location = Column(String)
+    location = Column(String(255))
     
     # Statistics
     items_lost = Column(Integer, default=0)
@@ -81,28 +81,28 @@ class Item(Base):
     user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
     
     # Basic info
-    title = Column(String, nullable=False)
+    title = Column(String(255), nullable=False)
     description = Column(Text, nullable=False)
     category = Column(Enum(ItemCategory), nullable=False)
     status = Column(Enum(ItemStatus), nullable=False)
     
     # Location info
-    location_name = Column(String, nullable=False)
+    location_name = Column(String(255), nullable=False)
     latitude = Column(Float, nullable=False)
     longitude = Column(Float, nullable=False)
     # Use simple string for location to avoid PostGIS dependency
-    location = Column(String)
+    location = Column(String(500))
     
     # Additional details
-    brand = Column(String)
-    model = Column(String)
-    color = Column(String)
-    size = Column(String)
+    brand = Column(String(100))
+    model = Column(String(100))
+    color = Column(String(50))
+    size = Column(String(50))
     distinctive_features = Column(Text)
     
     # Images
     image_urls = Column(JSON, default=list)
-    primary_image_url = Column(String, default="/api/placeholder/400/300")
+    primary_image_url = Column(String(500), default="/api/placeholder/400/300")
     
     # Dates
     date_lost_found = Column(DateTime, nullable=False)
@@ -116,10 +116,10 @@ class Item(Base):
     
     # Reward info
     reward_amount = Column(Float, default=0.0)
-    reward_currency = Column(String, default="RWF")
+    reward_currency = Column(String(10), default="RWF")
     
     # Contact preferences
-    contact_method = Column(String, default="both")  # phone, email, both
+    contact_method = Column(String(20), default="both")  # phone, email, both
     allow_public_contact = Column(Boolean, default=False)
     
     # AI matching metadata
@@ -159,7 +159,7 @@ class Match(Base):
     # Status
     is_confirmed = Column(Boolean, default=False)
     is_dismissed = Column(Boolean, default=False)
-    confidence_level = Column(String, default="medium")  # low, medium, high
+    confidence_level = Column(String(20), default="medium")  # low, medium, high
     
     # Metadata
     match_reason = Column(Text)
@@ -180,7 +180,7 @@ class Message(Base):
     
     # Content
     content = Column(Text, nullable=False)
-    message_type = Column(String, default="text")  # text, image, location, system
+    message_type = Column(String(20), default="text")  # text, image, location, system
     
     # Status
     is_read = Column(Boolean, default=False)
@@ -206,19 +206,19 @@ class Payment(Base):
     
     # Payment details
     amount = Column(Float, nullable=False)
-    currency = Column(String, default="RWF")
-    payment_method = Column(String, nullable=False)  # mtn_momo, airtel_money, bank
-    phone_number = Column(String)
+    currency = Column(String(10), default="RWF")
+    payment_method = Column(String(50), nullable=False)  # mtn_momo, airtel_money, bank
+    phone_number = Column(String(20))
     
     # Status
     status = Column(Enum(PaymentStatus), default=PaymentStatus.PENDING)
     
     # External references
-    transaction_id = Column(String, unique=True)
-    external_reference = Column(String)
+    transaction_id = Column(String(100), unique=True)
+    external_reference = Column(String(100))
     
     # Metadata
-    description = Column(String)
+    description = Column(String(500))
     created_at = Column(DateTime, default=datetime.utcnow)
     completed_at = Column(DateTime)
     
@@ -237,10 +237,10 @@ class Commission(Base):
     # Commission details
     amount = Column(Float, nullable=False)
     rate = Column(Float, default=0.10)  # 10%
-    currency = Column(String, default="RWF")
+    currency = Column(String(10), default="RWF")
     
     # Status
-    status = Column(String, default="pending")  # pending, paid, cancelled
+    status = Column(String(20), default="pending")  # pending, paid, cancelled
     
     # Dates
     created_at = Column(DateTime, default=datetime.utcnow)
@@ -274,9 +274,9 @@ class Notification(Base):
     user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
     
     # Content
-    title = Column(String, nullable=False)
+    title = Column(String(255), nullable=False)
     message = Column(Text, nullable=False)
-    type = Column(String, nullable=False)  # match, message, payment, system
+    type = Column(String(50), nullable=False)  # match, message, payment, system
     
     # References
     item_id = Column(Integer, ForeignKey("items.id"))
@@ -295,7 +295,7 @@ class SystemSettings(Base):
     __table_args__ = {'extend_existing': True}
     
     id = Column(Integer, primary_key=True, index=True)
-    key = Column(String, unique=True, nullable=False)
+    key = Column(String(100), unique=True, nullable=False)
     value = Column(Text, nullable=False)
     description = Column(Text)
     created_at = Column(DateTime, default=datetime.utcnow)
@@ -308,17 +308,17 @@ class AnonymousItem(Base):
     id = Column(Integer, primary_key=True, index=True)
     
     # Reporter info
-    reporter_name = Column(String, nullable=False)
-    reporter_phone = Column(String, nullable=False)
+    reporter_name = Column(String(255), nullable=False)
+    reporter_phone = Column(String(20), nullable=False)
     
     # Item details
-    title = Column(String, nullable=False)
+    title = Column(String(255), nullable=False)
     description = Column(Text, nullable=False)
-    category = Column(String, nullable=False)
-    status = Column(String, nullable=False)
+    category = Column(String(100), nullable=False)
+    status = Column(String(20), nullable=False)
     
     # Location
-    location_name = Column(String, nullable=False)
+    location_name = Column(String(255), nullable=False)
     latitude = Column(Float, nullable=False)
     longitude = Column(Float, nullable=False)
     
@@ -326,7 +326,7 @@ class AnonymousItem(Base):
     image_url = Column(Text)
     
     # Tracking
-    tracking_code = Column(String, unique=True, nullable=False)
+    tracking_code = Column(String(50), unique=True, nullable=False)
     
     # Status
     is_active = Column(Boolean, default=True)
@@ -343,10 +343,10 @@ class AnonymousPayment(Base):
     item_id = Column(Integer, ForeignKey("anonymous_items.id"), nullable=False)
     
     # Payment details
-    payer_phone = Column(String, nullable=False)
-    payment_method = Column(String, nullable=False)
-    transaction_id = Column(String, unique=True, nullable=False)
-    status = Column(String, default="pending")
+    payer_phone = Column(String(20), nullable=False)
+    payment_method = Column(String(50), nullable=False)
+    transaction_id = Column(String(100), unique=True, nullable=False)
+    status = Column(String(20), default="pending")
     amount = Column(Integer, default=0)
     
     # Timestamps
@@ -359,10 +359,10 @@ class ChatMessage(Base):
     id = Column(Integer, primary_key=True, index=True)
     
     # Room/Item reference
-    room_id = Column(String, nullable=False)
+    room_id = Column(String(100), nullable=False)
     
     # Message details
-    sender_phone = Column(String, nullable=False)
+    sender_phone = Column(String(20), nullable=False)
     message = Column(Text, nullable=False)
     
     # Timestamps
@@ -374,10 +374,10 @@ class AuditLog(Base):
     
     id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer, ForeignKey("users.id"))
-    action = Column(String, nullable=False)
-    resource_type = Column(String, nullable=False)
+    action = Column(String(100), nullable=False)
+    resource_type = Column(String(100), nullable=False)
     resource_id = Column(Integer)
     details = Column(JSON)
-    ip_address = Column(String)
-    user_agent = Column(String)
+    ip_address = Column(String(45))
+    user_agent = Column(String(500))
     created_at = Column(DateTime, default=datetime.utcnow)

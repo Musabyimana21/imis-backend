@@ -37,6 +37,12 @@ class Settings(BaseSettings):
     # Frontend
     FRONTEND_URL: str = "http://localhost:5173"
     
+    # CORS
+    ALLOWED_ORIGINS: str = "http://localhost:5173"
+    
+    # Logging
+    LOG_LEVEL: str = "INFO"
+    
     # Email (Optional)
     SMTP_HOST: Optional[str] = None
     SMTP_PORT: int = 587
@@ -52,5 +58,6 @@ class Settings(BaseSettings):
     class Config:
         env_file = ".env"
         case_sensitive = True
+        extra = "allow"
 
 settings = Settings()
