@@ -6,6 +6,7 @@ from .api import (
     enhanced_items, enhanced_messages, enhanced_admin, payments, chat, manual_payments
 )
 from .api import manual_payment_fix
+from sqlalchemy import text
 import logging
 import os
 
@@ -53,7 +54,7 @@ async def startup():
         from .core.database import SessionLocal
         db = SessionLocal()
         try:
-            db.execute("SELECT 1")
+            db.execute(text("SELECT 1"))
             logger.info("Database connection successful")
         except Exception as db_error:
             logger.error(f"Database connection failed: {db_error}")
@@ -99,7 +100,7 @@ def health():
         # Test database connection
         from .core.database import SessionLocal
         db = SessionLocal()
-        db.execute("SELECT 1")
+        db.execute(text("SELECT 1"))
         db.close()
         return {"status": "healthy", "database": "connected", "version": "3.0.0"}
     except Exception as e:
