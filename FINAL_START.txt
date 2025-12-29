@@ -1,0 +1,60 @@
+================================================================================
+                         FINAL START INSTRUCTIONS
+================================================================================
+
+SEEING TIMEOUT WARNINGS? That's normal with slow internet.
+
+================================================================================
+
+BEST OPTION - USE THIS:
+
+    START_FAST.bat
+
+Why?
+  ✓ Skips pip upgrade (faster)
+  ✓ Longer timeout (100 seconds)
+  ✓ Works with slow internet
+  ✓ Installs all packages
+  ✓ Starts both services
+
+================================================================================
+
+ALTERNATIVE - IF YOU PREFER:
+
+    START_FIXED.bat
+
+  - Takes longer
+  - Upgrades pip first
+  - Will retry on timeout
+  - Eventually succeeds
+
+================================================================================
+
+WHAT HAPPENS:
+
+  1. Installs backend packages (2-3 minutes)
+  2. Installs frontend packages (1-2 minutes)
+  3. Starts backend window
+  4. Starts frontend window
+  5. Ready!
+
+================================================================================
+
+THEN OPEN:
+
+  http://localhost:5173
+
+================================================================================
+
+TIMEOUT WARNINGS ARE NORMAL:
+
+  - Not fatal
+  - Pip retries automatically
+  - Just means slow internet
+  - Installation still succeeds
+
+================================================================================
+
+                    RUN: START_FAST.bat
+
+================================================================================

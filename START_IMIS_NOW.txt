@@ -1,0 +1,74 @@
+================================================================================
+                         START IMIS - FINAL INSTRUCTIONS
+================================================================================
+
+                            RUN THIS FILE:
+
+                          QUICK_START.bat
+
+================================================================================
+
+WHAT HAPPENS:
+
+  1. Installs backend packages (you see progress)
+  2. Installs frontend packages (you see progress)  
+  3. Starts backend (new window)
+  4. Starts frontend (new window)
+  5. Ready in 2 minutes!
+
+================================================================================
+
+THEN OPEN:
+
+  http://localhost:5173
+
+================================================================================
+
+YOU WILL SEE:
+
+  ✓ Package installation progress
+  ✓ Two terminal windows open
+  ✓ Backend: http://localhost:8000
+  ✓ Frontend: http://localhost:5173
+  ✓ Full IMIS system running
+
+================================================================================
+
+TO STOP:
+
+  Close the two terminal windows
+
+================================================================================
+
+FEATURES:
+
+  ✓ Lost & Found reporting
+  ✓ AI matching engine
+  ✓ GPS geolocation
+  ✓ Secure messaging
+  ✓ Commission handling
+  ✓ Admin dashboard
+  ✓ Kinyarwanda + English
+  ✓ Mobile responsive
+
+================================================================================
+
+TROUBLESHOOTING:
+
+  If QUICK_START.bat doesn't work:
+  
+  1. Open terminal
+  2. cd backend
+  3. python -m pip install fastapi uvicorn sqlalchemy
+  4. python -m uvicorn app.main:app --reload
+  
+  (New terminal)
+  5. cd frontend
+  6. npm install
+  7. npm run dev
+
+================================================================================
+
+                    JUST RUN: QUICK_START.bat
+
+================================================================================

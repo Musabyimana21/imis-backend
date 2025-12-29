@@ -1,0 +1,72 @@
+{
+  "info": {
+    "name": "MTN Mobile Money API Tests",
+    "description": "Test MTN API directly to debug IP whitelisting issue"
+  },
+  "item": [
+    {
+      "name": "1. Get Access Token",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Basic MjRhMTRkN2ItNTdiMi00NmE2LWJhNWMtNGMxN2Y2MjhlYjllOjJhYzkzYzNmNjAzMDRmZGFhNmY5YWQyZjU5MWYwODM0"
+          },
+          {
+            "key": "Ocp-Apim-Subscription-Key",
+            "value": "92e0ee9794d34ac8bb166d2cd3b99a69"
+          },
+          {
+            "key": "X-Target-Environment",
+            "value": "mtnrwanda"
+          }
+        ],
+        "url": {
+          "raw": "https://proxy.momoapi.mtn.co.rw/collection/token/",
+          "protocol": "https",
+          "host": ["proxy", "momoapi", "mtn", "co", "rw"],
+          "path": ["collection", "token", ""]
+        }
+      }
+    },
+    {
+      "name": "2. Request Payment",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{access_token}}"
+          },
+          {
+            "key": "X-Reference-Id",
+            "value": "{{$guid}}"
+          },
+          {
+            "key": "X-Target-Environment",
+            "value": "mtnrwanda"
+          },
+          {
+            "key": "Ocp-Apim-Subscription-Key",
+            "value": "92e0ee9794d34ac8bb166d2cd3b99a69"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"amount\": \"1000\",\n  \"currency\": \"RWF\",\n  \"externalId\": \"TEST123\",\n  \"payer\": {\n    \"partyIdType\": \"MSISDN\",\n    \"partyId\": \"250788123456\"\n  },\n  \"payerMessage\": \"Test payment\",\n  \"payeeNote\": \"IMIS test payment\"\n}"
+        },
+        "url": {
+          "raw": "https://proxy.momoapi.mtn.co.rw/collection/v1_0/requesttopay",
+          "protocol": "https",
+          "host": ["proxy", "momoapi", "mtn", "co", "rw"],
+          "path": ["collection", "v1_0", "requesttopay"]
+        }
+      }
+    }
+  ]
+}

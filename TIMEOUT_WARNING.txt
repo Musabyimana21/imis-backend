@@ -1,0 +1,54 @@
+================================================================================
+                    PIP TIMEOUT WARNING - NOT AN ERROR
+================================================================================
+
+WARNING: Connection to pypi.org timed out
+
+This is NOT a fatal error!
+
+================================================================================
+
+WHAT IT MEANS:
+
+  - Your internet is slow
+  - Pip is retrying automatically (5 attempts)
+  - Installation will succeed, just takes longer
+
+================================================================================
+
+WHAT TO DO:
+
+  Option 1: WAIT (Recommended)
+    - Let it retry
+    - It will eventually succeed
+    - Takes 2-5 minutes
+
+  Option 2: USE FASTER SCRIPT
+    - Run: START_FAST.bat
+    - Skips pip upgrade
+    - Increases timeout to 100 seconds
+    - Faster installation
+
+================================================================================
+
+IF IT KEEPS TIMING OUT:
+
+  1. Check your internet connection
+  2. Try again later
+  3. Or use START_FAST.bat (longer timeout)
+
+================================================================================
+
+BOTTOM LINE:
+
+  ✓ Not a fatal error
+  ✓ Pip will retry automatically
+  ✓ Just wait or use START_FAST.bat
+
+================================================================================
+
+RECOMMENDED:
+
+  Run: START_FAST.bat
+
+================================================================================

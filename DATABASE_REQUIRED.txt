@@ -1,0 +1,91 @@
+================================================================================
+                    DATABASE IS REQUIRED FOR IMIS
+================================================================================
+
+IMIS needs PostgreSQL with PostGIS for full functionality.
+
+================================================================================
+
+STEP 1: INSTALL POSTGRESQL
+
+    Run: INSTALL_POSTGRESQL.bat
+
+This automated script will:
+  ✓ Open download page
+  ✓ Guide installation
+  ✓ Create database
+  ✓ Install PostGIS
+  ✓ Configure IMIS
+  ✓ Everything automated!
+
+Time: 10-15 minutes
+
+================================================================================
+
+STEP 2: START IMIS
+
+    Run: START_WITH_DB.bat
+
+This will:
+  ✓ Install all packages
+  ✓ Start backend with database
+  ✓ Start frontend
+  ✓ Full system ready!
+
+Time: 2-3 minutes
+
+================================================================================
+
+STEP 3: USE IMIS
+
+    Open: http://localhost:5173
+
+Features:
+  ✓ User registration
+  ✓ Lost item reporting
+  ✓ Found item reporting
+  ✓ AI-based matching
+  ✓ GPS geolocation
+  ✓ Secure messaging
+  ✓ Commission handling
+  ✓ Admin dashboard
+  ✓ Kinyarwanda + English
+
+================================================================================
+
+WHY POSTGRESQL?
+
+  - PostGIS for geolocation (GPS matching)
+  - Spatial queries (distance calculations)
+  - Full-text search
+  - ACID compliance
+  - Production-ready
+
+================================================================================
+
+ALTERNATIVE (NOT RECOMMENDED):
+
+SQLite (limited features):
+  1. Edit backend\.env
+  2. DATABASE_URL=sqlite:///./imis.db
+  3. Run START_WITH_DB.bat
+  
+  Missing: PostGIS, spatial queries, production features
+
+================================================================================
+
+RECOMMENDED PATH:
+
+  1. Run: INSTALL_POSTGRESQL.bat
+  2. Follow prompts (10 minutes)
+  3. Run: START_WITH_DB.bat
+  4. Open: http://localhost:5173
+  5. Enjoy full IMIS!
+
+================================================================================
+
+START NOW:
+
+    INSTALL_POSTGRESQL.bat
+
+================================================================================

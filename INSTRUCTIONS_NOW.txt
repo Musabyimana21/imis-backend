@@ -1,0 +1,32 @@
+✅ BACKEND IS RUNNING ON PORT 8001!
+
+🚀 NEXT STEPS:
+
+1. Open a NEW Command Prompt window
+2. Navigate to: T:\IMIS
+3. Run: START_FRONTEND_NOW.bat
+
+OR manually:
+1. Open new cmd window
+2. cd T:\IMIS\frontend
+3. npm run dev -- --port 5173
+
+🌐 THEN ACCESS:
+- Frontend: http://localhost:5173
+- Backend API: http://localhost:8001
+- API Docs: http://localhost:8001/docs
+
+🧪 TEST ACCOUNTS:
+- admin@imis.rw / admin123
+- user1@imis.rw / password123
+
+⚠️ IMPORTANT:
+- Keep the current backend terminal running
+- The "Failed to fetch" error should be fixed now
+- Backend is on port 8001 (matching frontend config)
+
+🔧 IF STILL ISSUES:
+1. Wait 30 seconds for full startup
+2. Check both terminals are running
+3. Try refreshing browser
+4. Check http://localhost:8001/health shows "connected"

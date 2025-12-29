@@ -1,0 +1,89 @@
+================================================================================
+                    SETUP DATABASE - COMPLETE GUIDE
+================================================================================
+
+You need PostgreSQL for full IMIS functionality.
+
+================================================================================
+
+AUTOMATED SETUP (EASIEST):
+
+    INSTALL_POSTGRESQL.bat
+
+This will:
+  1. Open download page
+  2. Guide you through installation
+  3. Create database automatically
+  4. Configure IMIS
+  5. Ready to run!
+
+================================================================================
+
+MANUAL SETUP:
+
+Step 1: Download PostgreSQL
+  - Go to: https://www.enterprisedb.com/downloads/postgres-postgresql-downloads
+  - Download PostgreSQL 15 or 16 for Windows x86-64
+  - Run installer
+
+Step 2: During Installation
+  - Set password (REMEMBER IT!)
+  - Port: 5432 (default)
+  - Install Stack Builder: YES
+  - Install PostGIS extension
+
+Step 3: Create Database
+  Open Command Prompt:
+  
+  cd "C:\Program Files\PostgreSQL\15\bin"
+  createdb -U postgres imis
+  psql -U postgres -d imis -c "CREATE EXTENSION postgis;"
+
+Step 4: Configure IMIS
+  Edit backend\.env:
+  
+  DATABASE_URL=postgresql://postgres:YOURPASSWORD@localhost:5432/imis
+  SECRET_KEY=dev-secret-key-change-in-production
+  ALGORITHM=HS256
+  ACCESS_TOKEN_EXPIRE_MINUTES=30
+
+Step 5: Start IMIS
+  Run: START_WITH_DB.bat
+
+================================================================================
+
+QUICK CHECK:
+
+After installation, verify PostgreSQL is running:
+  - Open Services (services.msc)
+  - Look for "postgresql-x64-15" or "postgresql-x64-16"
+  - Status should be "Running"
+
+================================================================================
+
+THEN RUN:
+
+    START_WITH_DB.bat
+
+================================================================================
+
+WHAT YOU GET:
+
+  ✓ Full database functionality
+  ✓ User registration
+  ✓ Item reporting (lost/found)
+  ✓ AI matching engine
+  ✓ Secure messaging
+  ✓ Commission tracking
+  ✓ Admin dashboard
+  ✓ All features working!
+
+================================================================================
+
+RECOMMENDED:
+
+    Run: INSTALL_POSTGRESQL.bat
+
+It automates everything!
+
+================================================================================

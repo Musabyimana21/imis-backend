@@ -1,0 +1,40 @@
+================================================================================
+                    POSTGRESQL 18 DETECTED - UPDATED!
+================================================================================
+
+✅ Found PostgreSQL 18 installed on your system!
+
+All scripts have been updated to support PostgreSQL 18.
+
+================================================================================
+
+NOW RUN:
+
+    SETUP_WIZARD.bat
+
+Then:
+  1. Choose option 1 (Check PostgreSQL) - Should show FOUND now!
+  2. Choose option 2 (Reset password)
+  3. Choose option 3 (Test connection)
+  4. Choose option 4 (Start IMIS)
+
+================================================================================
+
+OR DIRECT COMMANDS:
+
+  1. CHECK_POSTGRESQL.bat      (Should find PostgreSQL 18)
+  2. RESET_POSTGRESQL_PASSWORD.bat  (Set password)
+  3. TEST_DATABASE.bat         (Test connection)
+  4. START_WITH_DB.bat         (Start IMIS)
+
+================================================================================
+
+LOCATION:
+
+  C:\Program Files\PostgreSQL\18\
+
+================================================================================
+
+                    RUN: SETUP_WIZARD.bat
+
+================================================================================

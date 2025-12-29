@@ -1,0 +1,45 @@
+================================================================================
+                    RUN_NOW.BAT IS STUCK? USE THIS INSTEAD
+================================================================================
+
+The pip install is stuck because it's running in quiet mode.
+
+USE THIS FILE INSTEAD:
+
+    QUICK_START.bat
+
+This will:
+  ✓ Show all output (not hidden)
+  ✓ Install packages directly (no venv issues)
+  ✓ Start both services
+  ✓ Work immediately
+
+================================================================================
+
+JUST RUN:
+
+    QUICK_START.bat
+
+================================================================================
+
+WHAT IT DOES:
+
+  1. Installs backend packages (you'll see progress)
+  2. Installs frontend packages (you'll see progress)
+  3. Starts backend on port 8000
+  4. Starts frontend on port 5173
+  5. Opens two windows
+
+================================================================================
+
+THEN:
+
+  Open: http://localhost:5173
+
+================================================================================
+
+TO STOP:
+
+  Close the two terminal windows
+
+================================================================================

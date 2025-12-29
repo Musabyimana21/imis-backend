@@ -1,0 +1,81 @@
+================================================================================
+REQUEST TO PAY - REQUEST
+================================================================================
+
+POST https://proxy.momoapi.mtn.co.rw/collection/v1_0/requesttopay
+
+Headers:
+  X-Reference-Id: 68d9495b-6050-468e-b03c-419e9c9bbcfe
+  X-Target-Environment: mtnrwanda
+  Ocp-Apim-Subscription-Key: 92e0ee9794d34ac8bb166d2cd3b99a69
+  Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSMjU2In0.eyJjbGllbnRJZCI6IjI0YTE0ZDdiLTU3YjItNDZhNi1iYTVjLTRjMTdmNjI4ZWI5ZSIsImV4cGlyZXMiOiIyMDI1LTEyLTEzVDEyOjIxOjAwLjQyNzEyOTciLCJzZXNzaW9uSWQiOiI5YzBlZDI1OC1jNGUzLTQ4ZTgtOTQ1OS03YzljOGE3N2Y3NWUifQ.Pscg790m3PK4yqks6ycyGQH1ykGXt6nxqP_Fk9R9YNbOVhu5rTPywkrXncpb1rtQ3WAafElhI_36c6BwNjwkZd_XKShC_lMK7LOwWxo9K4Jl86i09nBNnYnhcKOvXLlAsOled2_Rvx8GF04GhRNCY1uN3R7zsl_EGrt6AtwbIhkWqwTPGA8QgPL1y8fIfahJwIN-5L470ELtYQsOWUQPBUJwQTvb7Ua5okDUwdILXEH2AVMsHI8BcKBozWQvuQ1r1xFpZkf4VFAA6vL2Jo_AHQalTIIu-2ioXsKq-akwd0RygFE3Byz3HbR2M9loqQZMnNrV43iWFzSGjIW1-VZ5zQ
+  Content-Type: application/json
+
+Body:
+{
+  "amount": "1000",
+  "currency": "RWF",
+  "externalId": "IMIS_8F40A540",
+  "payer": {
+    "partyIdType": "MSISDN",
+    "partyId": "250796014801"
+  },
+  "payerMessage": "IMIS Contact Unlock Payment",
+  "payeeNote": "Payment for contact information"
+}
+
+================================================================================
+REQUEST TO PAY - RESPONSE
+================================================================================
+
+Status Code: 202 Accepted
+
+Headers:
+  Content-Length: 0
+  Strict-Transport-Security: max-age=31536000; includeSubDomains
+  Date: Sat, 13 Dec 2025 09:21:01 GMT
+
+Body: (Empty)
+
+================================================================================
+CHECK STATUS - REQUEST
+================================================================================
+
+GET https://proxy.momoapi.mtn.co.rw/collection/v1_0/requesttopay/68d9495b-6050-468e-b03c-419e9c9bbcfe
+
+Headers:
+  X-Target-Environment: mtnrwanda
+  Ocp-Apim-Subscription-Key: 92e0ee9794d34ac8bb166d2cd3b99a69
+  Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSMjU2In0.eyJjbGllbnRJZCI6IjI0YTE0ZDdiLTU3YjItNDZhNi1iYTVjLTRjMTdmNjI4ZWI5ZSIsImV4cGlyZXMiOiIyMDI1LTEyLTEzVDEyOjIxOjAwLjQyNzEyOTciLCJzZXNzaW9uSWQiOiI5YzBlZDI1OC1jNGUzLTQ4ZTgtOTQ1OS03YzljOGE3N2Y3NWUifQ.Pscg790m3PK4yqks6ycyGQH1ykGXt6nxqP_Fk9R9YNbOVhu5rTPywkrXncpb1rtQ3WAafElhI_36c6BwNjwkZd_XKShC_lMK7LOwWxo9K4Jl86i09nBNnYnhcKOvXLlAsOled2_Rvx8GF04GhRNCY1uN3R7zsl_EGrt6AtwbIhkWqwTPGA8QgPL1y8fIfahJwIN-5L470ELtYQsOWUQPBUJwQTvb7Ua5okDUwdILXEH2AVMsHI8BcKBozWQvuQ1r1xFpZkf4VFAA6vL2Jo_AHQalTIIu-2ioXsKq-akwd0RygFE3Byz3HbR2M9loqQZMnNrV43iWFzSGjIW1-VZ5zQ
+
+================================================================================
+CHECK STATUS - RESPONSE
+================================================================================
+
+Status Code: 200 OK
+
+Headers:
+  Content-Length: 267
+  Content-Type: application/json;charset=utf-8
+  Strict-Transport-Security: max-age=31536000; includeSubDomains
+  Date: Sat, 13 Dec 2025 09:21:07 GMT
+
+Body:
+{
+  "externalId": "IMIS_8F40A540",
+  "amount": "1000",
+  "currency": "RWF",
+  "payer": {
+    "partyIdType": "MSISDN",
+    "partyId": "250796014801"
+  },
+  "payerMessage": "IMIS Contact Unlock Payment",
+  "payeeNote": "Payment for contact information",
+  "status": "FAILED",
+  "reason": "INTERNAL_PROCESSING_ERROR"
+}
+
+================================================================================
+RESULT: Phone 250796014801 received NO popup
+Reference ID: 68d9495b-6050-468e-b03c-419e9c9bbcfe
+================================================================================

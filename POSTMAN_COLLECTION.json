@@ -1,0 +1,158 @@
+{
+  "info": {
+    "name": "MTN MoMo Rwanda - IMIS",
+    "description": "Test MTN Mobile Money API for IMIS",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "1. Get Access Token",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Ocp-Apim-Subscription-Key",
+            "value": "92e0ee9794d34ac8bb166d2cd3b99a69",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Basic MjRhMTRkN2ItNTdiMi00NmE2LWJhNWMtNGMxN2Y2MjhlYjllOjJhYzkzYzNmNjAzMDRmZGFhNmY5YWQyZjU5MWYwODM0",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "https://proxy.momoapi.mtn.co.rw/collection/token/",
+          "protocol": "https",
+          "host": ["proxy", "momoapi", "mtn", "co", "rw"],
+          "path": ["collection", "token", ""]
+        },
+        "description": "Get OAuth access token"
+      },
+      "response": []
+    },
+    {
+      "name": "2. Request to Pay",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "X-Reference-Id",
+            "value": "{{$guid}}",
+            "type": "text"
+          },
+          {
+            "key": "X-Target-Environment",
+            "value": "mtnrwanda",
+            "type": "text"
+          },
+          {
+            "key": "Ocp-Apim-Subscription-Key",
+            "value": "92e0ee9794d34ac8bb166d2cd3b99a69",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{access_token}}",
+            "type": "text",
+            "description": "Replace {{access_token}} with token from step 1"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"amount\": \"1000\",\n  \"currency\": \"RWF\",\n  \"externalId\": \"TEST123456\",\n  \"payer\": {\n    \"partyIdType\": \"MSISDN\",\n    \"partyId\": \"250796014801\"\n  },\n  \"payerMessage\": \"IMIS Test Payment\",\n  \"payeeNote\": \"Contact unlock fee\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://proxy.momoapi.mtn.co.rw/collection/v1_0/requesttopay",
+          "protocol": "https",
+          "host": ["proxy", "momoapi", "mtn", "co", "rw"],
+          "path": ["collection", "v1_0", "requesttopay"]
+        },
+        "description": "Request payment from customer"
+      },
+      "response": []
+    },
+    {
+      "name": "3. Check Payment Status",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "X-Target-Environment",
+            "value": "mtnrwanda",
+            "type": "text"
+          },
+          {
+            "key": "Ocp-Apim-Subscription-Key",
+            "value": "92e0ee9794d34ac8bb166d2cd3b99a69",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{access_token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "https://proxy.momoapi.mtn.co.rw/collection/v1_0/requesttopay/{{reference_id}}",
+          "protocol": "https",
+          "host": ["proxy", "momoapi", "mtn", "co", "rw"],
+          "path": ["collection", "v1_0", "requesttopay", "{{reference_id}}"]
+        },
+        "description": "Check status of payment request. Replace {{reference_id}} with X-Reference-Id from step 2"
+      },
+      "response": []
+    },
+    {
+      "name": "4. Get Account Balance",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "X-Target-Environment",
+            "value": "mtnrwanda",
+            "type": "text"
+          },
+          {
+            "key": "Ocp-Apim-Subscription-Key",
+            "value": "92e0ee9794d34ac8bb166d2cd3b99a69",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{access_token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "https://proxy.momoapi.mtn.co.rw/collection/v1_0/account/balance",
+          "protocol": "https",
+          "host": ["proxy", "momoapi", "mtn", "co", "rw"],
+          "path": ["collection", "v1_0", "account", "balance"]
+        },
+        "description": "Get account balance"
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "access_token",
+      "value": "PASTE_TOKEN_HERE"
+    },
+    {
+      "key": "reference_id",
+      "value": "PASTE_REFERENCE_ID_HERE"
+    }
+  ]
+}

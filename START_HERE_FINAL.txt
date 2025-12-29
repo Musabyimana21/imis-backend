@@ -1,0 +1,77 @@
+================================================================================
+                    START HERE - COMPLETE GUIDE
+================================================================================
+
+Having password issues? Use the Setup Wizard!
+
+================================================================================
+
+RUN THIS:
+
+    SETUP_WIZARD.bat
+
+================================================================================
+
+WHAT IT DOES:
+
+  Interactive menu with 6 options:
+
+  [1] Check if PostgreSQL is installed
+      - Shows if PostgreSQL is installed
+      - Shows version and location
+      - Checks if service is running
+
+  [2] Reset PostgreSQL password
+      - AUTOMATED password reset
+      - Safe and easy
+      - Sets new password
+
+  [3] Test database connection
+      - Tests if password works
+      - Updates backend\.env
+      - Handles special characters
+
+  [4] Start IMIS
+      - Starts backend with database
+      - Starts frontend
+      - Full system ready
+
+  [5] Help - I'm stuck!
+      - Shows common issues
+      - Provides solutions
+
+  [6] Exit
+
+================================================================================
+
+TYPICAL WORKFLOW:
+
+  1. Run SETUP_WIZARD.bat
+  2. Choose option 1 (Check PostgreSQL)
+  3. Choose option 2 (Reset password if needed)
+  4. Choose option 3 (Test connection)
+  5. Choose option 4 (Start IMIS)
+  6. Open: http://localhost:5173
+
+================================================================================
+
+IF POSTGRESQL NOT INSTALLED:
+
+  Exit wizard and run: INSTALL_POSTGRESQL.bat
+  Then run SETUP_WIZARD.bat again
+
+================================================================================
+
+QUICK REFERENCE:
+
+  Setup Wizard:        SETUP_WIZARD.bat
+  Check PostgreSQL:    CHECK_POSTGRESQL.bat
+  Reset Password:      RESET_POSTGRESQL_PASSWORD.bat
+  Test Connection:     TEST_DATABASE.bat
+  Start IMIS:          START_WITH_DB.bat
+
+================================================================================
+
+                    RUN: SETUP_WIZARD.bat
+
+================================================================================

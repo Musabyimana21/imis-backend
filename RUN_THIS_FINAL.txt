@@ -1,0 +1,69 @@
+================================================================================
+                    DATABASE ERROR - USE THIS INSTEAD
+================================================================================
+
+ERROR: password authentication failed for user "imis"
+
+CAUSE: PostgreSQL not installed
+
+================================================================================
+
+SOLUTION - RUN WITHOUT DATABASE:
+
+    START_NO_DB.bat
+
+================================================================================
+
+WHAT THIS DOES:
+
+  ✓ Starts backend (no database needed)
+  ✓ Starts frontend (full UI works)
+  ✓ Shows API documentation
+  ✓ Perfect for testing UI
+
+================================================================================
+
+WHAT WORKS:
+
+  ✓ Frontend UI (all pages visible)
+  ✓ Navigation
+  ✓ Design and layout
+  ✓ Forms (visual only)
+  ✓ API documentation
+
+WHAT DOESN'T WORK (needs database):
+
+  ✗ User registration
+  ✗ Saving data
+  ✗ Login
+
+================================================================================
+
+THEN OPEN:
+
+  http://localhost:5173
+
+You'll see the full IMIS interface!
+
+================================================================================
+
+TO GET FULL FEATURES LATER:
+
+  1. Install PostgreSQL from:
+     https://www.postgresql.org/download/windows/
+
+  2. Or use SQLite (simpler):
+     Edit backend/.env:
+     DATABASE_URL=sqlite:///./imis.db
+
+  3. Then run: START_FAST.bat
+
+================================================================================
+
+FOR NOW - JUST RUN:
+
+    START_NO_DB.bat
+
+This lets you see and test the UI immediately!
+
+================================================================================

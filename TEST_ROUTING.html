@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test IMIS Routing</title>
+</head>
+<body>
+    <h1>IMIS Routing Test</h1>
+    
+    <h2>Test Links:</h2>
+    <ul>
+        <li><a href="http://localhost:5174/" target="_blank">Homepage</a></li>
+        <li><a href="http://localhost:5174/item/8" target="_blank">Item 8 (Beautiful Page)</a></li>
+        <li><a href="http://localhost:5174/items/8" target="_blank">Items 8 (Old Page)</a></li>
+        <li><a href="http://localhost:5174/report-lost" target="_blank">Report Lost</a></li>
+        <li><a href="http://localhost:5174/report-found" target="_blank">Report Found</a></li>
+    </ul>
+    
+    <h2>API Test:</h2>
+    <button onclick="testAPI()">Test API</button>
+    <div id="result"></div>
+    
+    <script>
+        async function testAPI() {
+            try {
+                const response = await fetch('http://localhost:8001/api/anonymous/items');
+                const items = await response.json();
+                document.getElementById('result').innerHTML = `
+                    <h3>API Response:</h3>
+                    <p>Found ${items.length} items</p>
+                    <pre>${JSON.stringify(items.slice(0, 2), null, 2)}</pre>
+                `;
+            } catch (error) {
+                document.getElementById('result').innerHTML = `<p style="color: red;">Error: ${error.message}</p>`;
+            }
+        }
+    </script>
+</body>
+</html>

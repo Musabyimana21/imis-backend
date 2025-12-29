@@ -1,0 +1,71 @@
+================================================================================
+                        FINAL INSTRUCTIONS - IMIS
+================================================================================
+
+Current Error: password authentication failed for user "postgres"
+
+================================================================================
+
+3-STEP SOLUTION:
+
+STEP 1: CLOSE BACKEND WINDOW
+  - Close the window showing errors
+
+STEP 2: TEST DATABASE
+  - Run: TEST_DATABASE.bat
+  - Enter your PostgreSQL password
+  - It will verify and fix configuration
+
+STEP 3: START IMIS
+  - Run: START_WITH_DB.bat
+  - Backend will connect successfully
+  - Frontend will start
+  - Open: http://localhost:5173
+
+================================================================================
+
+WHAT TEST_DATABASE.bat DOES:
+
+  ✓ Tests PostgreSQL connection
+  ✓ Verifies password is correct
+  ✓ Handles special characters (@, #, :, /)
+  ✓ Updates backend\.env automatically
+  ✓ Shows clear success/error messages
+
+================================================================================
+
+IF TEST FAILS:
+
+  Check PostgreSQL Service:
+    1. Press Win+R
+    2. Type: services.msc
+    3. Find: postgresql-x64-15 or postgresql-x64-16
+    4. Status should be: Running
+    5. If not, right-click → Start
+
+  Don't Remember Password?
+    - Check installation notes
+    - Or see: PASSWORD_AUTH_FAILED.txt for reset instructions
+
+================================================================================
+
+AFTER SUCCESSFUL TEST:
+
+  Run: START_WITH_DB.bat
+
+  You'll see:
+    ✓ Backend starts
+    ✓ Database tables created
+    ✓ Frontend starts
+    ✓ "Application startup complete"
+
+  Then:
+    ✓ Open: http://localhost:5173
+    ✓ Register account
+    ✓ Use full IMIS!
+
+================================================================================
+
+                    START WITH: TEST_DATABASE.bat
+
+================================================================================

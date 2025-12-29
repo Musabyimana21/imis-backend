@@ -1,0 +1,58 @@
+================================================================================
+                    POSTGIS NOT INSTALLED - NO PROBLEM!
+================================================================================
+
+PostGIS is not installed, but IMIS can work without it!
+
+================================================================================
+
+WHAT WORKS WITHOUT POSTGIS:
+
+  ✓ User registration
+  ✓ Login/authentication
+  ✓ Item reporting (lost/found)
+  ✓ Basic matching
+  ✓ Messaging
+  ✓ Admin dashboard
+  ✓ All UI features
+
+WHAT DOESN'T WORK:
+
+  ✗ Advanced geospatial queries
+  ✗ Precise distance calculations
+
+================================================================================
+
+SOLUTION: USE THIS SCRIPT
+
+    SETUP_DB_NO_POSTGIS.bat
+
+This will:
+  ✓ Create database
+  ✓ Skip PostGIS (not needed)
+  ✓ Update configuration
+  ✓ Ready to start!
+
+================================================================================
+
+STEPS:
+
+  1. Run: SETUP_DB_NO_POSTGIS.bat
+  2. Enter password: password123
+  3. Run: START_WITH_DB.bat
+  4. Open: http://localhost:5173
+
+================================================================================
+
+THE SYSTEM HAS BEEN UPDATED:
+
+  ✓ Backend works without PostGIS
+  ✓ Location stored as text
+  ✓ Basic matching still works
+  ✓ All features functional
+
+================================================================================
+
+                    RUN: SETUP_DB_NO_POSTGIS.bat
+
+================================================================================

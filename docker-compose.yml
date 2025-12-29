@@ -1,0 +1,60 @@
+version: '3.8'
+
+services:
+  imis-db:
+    image: postgres:15
+    container_name: imis-database
+    environment:
+      POSTGRES_USER: imis
+      POSTGRES_PASSWORD: imis123
+      POSTGRES_DB: imis
+    ports:
+      - "5433:5432"
+    volumes:
+      - imis_postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U imis"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  imis-backend:
+    build: 
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: imis-api
+    ports:
+      - "8000:8000"
+    environment:
+      DATABASE_URL: postgresql://imis:imis123@imis-db:5432/imis
+      SECRET_KEY: dev-secret-key-change-in-production-imis
+      CORS_ORIGINS: "http://localhost:5173,http://127.0.0.1:5173"
+    depends_on:
+      imis-db:
+        condition: service_healthy
+    volumes:
+      - ./backend:/app
+    restart: unless-stopped
+
+  imis-frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: imis-web
+    ports:
+      - "5173:5173"
+    environment:
+      PUBLIC_API_URL: http://localhost:8000
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    restart: unless-stopped
+    depends_on:
+      - imis-backend
+
+volumes:
+  imis_postgres_data:
+
+networks:
+  default:
+    name: imis-network

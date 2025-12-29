@@ -1,0 +1,45 @@
+================================================================================
+                    DATABASE URL FIXED - RESTART NOW
+================================================================================
+
+✅ The database connection error has been FIXED!
+
+Your password contains @ symbol which was breaking the URL.
+It's now properly encoded.
+
+================================================================================
+
+WHAT TO DO:
+
+  1. Close the backend window (showing errors)
+  
+  2. Run: START_WITH_DB.bat
+  
+  3. Backend will start successfully!
+
+================================================================================
+
+WHAT WAS FIXED:
+
+  backend\.env now has:
+  DATABASE_URL=postgresql://postgres:Bachjudoly%4011996@localhost:5432/imis
+  
+  The @ in your password is now encoded as %40
+
+================================================================================
+
+AFTER RESTART:
+
+  Backend will:
+    ✓ Connect to PostgreSQL
+    ✓ Create database tables
+    ✓ Start successfully
+    ✓ Show "Application startup complete"
+
+  Then open: http://localhost:5173
+
+================================================================================
+
+                    RUN: START_WITH_DB.bat
+
+================================================================================

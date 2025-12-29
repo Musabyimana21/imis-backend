@@ -1,0 +1,41 @@
+================================================================================
+                    EMAIL-VALIDATOR ERROR - QUICK FIX
+================================================================================
+
+ERROR: email-validator is not installed
+
+This is a FATAL error - backend won't start without it.
+
+================================================================================
+
+QUICK FIX:
+
+1. Close the backend window (the one with the error)
+
+2. Run this file:
+   
+   FIX_EMAIL_ERROR.bat
+
+3. Then run:
+   
+   QUICK_START.bat
+
+================================================================================
+
+OR MANUAL FIX:
+
+Open terminal and run:
+
+cd backend
+python -m pip install email-validator
+
+Then restart backend.
+
+================================================================================
+
+WHAT HAPPENED:
+
+The email-validator package was missing from requirements.txt.
+It's now added and will work on next install.
+
+================================================================================

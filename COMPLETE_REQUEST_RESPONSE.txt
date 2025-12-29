@@ -1,0 +1,162 @@
+================================================================================
+COMPLETE MTN MOMO API REQUEST AND RESPONSE
+================================================================================
+
+Merchant: IMS.SP
+MSISDN: 250796888309
+Timestamp: 2025-12-13 09:21:00 UTC
+Reference ID: 68d9495b-6050-468e-b03c-419e9c9bbcfe
+
+================================================================================
+STEP 1: GET ACCESS TOKEN
+================================================================================
+
+REQUEST:
+--------
+Method: POST
+URL: https://proxy.momoapi.mtn.co.rw/collection/token/
+
+Headers:
+  Ocp-Apim-Subscription-Key: 92e0ee9794d34ac8bb166d2cd3b99a69
+  Authorization: Basic MjRhMTRkN2ItNTdiMi00NmE2LWJhNWMtNGMxN2Y2MjhlYjllOjJhYzkzYzNmNjAzMDRmZGFhNmY5YWQyZjU5MWYwODM0
+
+Body: (None)
+
+RESPONSE:
+---------
+Status Code: 200 OK
+
+Headers:
+  Cache-Control: no-store
+  Pragma: no-cache
+  Content-Length: 634
+  Content-Type: application/json;charset=utf-8
+  Strict-Transport-Security: max-age=31536000; includeSubDomains
+  Date: Sat, 13 Dec 2025 09:21:00 GMT
+
+Body:
+{
+  "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSMjU2In0.eyJjbGllbnRJZCI6IjI0YTE0ZDdiLTU3YjItNDZhNi1iYTVjLTRjMTdmNjI4ZWI5ZSIsImV4cGlyZXMiOiIyMDI1LTEyLTEzVDEyOjIxOjAwLjQyNzEyOTciLCJzZXNzaW9uSWQiOiI5YzBlZDI1OC1jNGUzLTQ4ZTgtOTQ1OS03YzljOGE3N2Y3NWUifQ.Pscg790m3PK4yqks6ycyGQH1ykGXt6nxqP_Fk9R9YNbOVhu5rTPywkrXncpb1rtQ3WAafElhI_36c6BwNjwkZd_XKShC_lMK7LOwWxo9K4Jl86i09nBNnYnhcKOvXLlAsOled2_Rvx8GF04GhRNCY1uN3R7zsl_EGrt6AtwbIhkWqwTPGA8QgPL1y8fIfahJwIN-5L470ELtYQsOWUQPBUJwQTvb7Ua5okDUwdILXEH2AVMsHI8BcKBozWQvuQ1r1xFpZkf4VFAA6vL2Jo_AHQalTIIu-2ioXsKq-akwd0RygFE3Byz3HbR2M9loqQZMnNrV43iWFzSGjIW1-VZ5zQ",
+  "token_type": "access_token",
+  "expires_in": 3600
+}
+
+Result: ✅ SUCCESS - Token obtained
+
+================================================================================
+STEP 2: REQUEST TO PAY
+================================================================================
+
+REQUEST:
+--------
+Method: POST
+URL: https://proxy.momoapi.mtn.co.rw/collection/v1_0/requesttopay
+
+Headers:
+  X-Reference-Id: 68d9495b-6050-468e-b03c-419e9c9bbcfe
+  X-Target-Environment: mtnrwanda
+  Ocp-Apim-Subscription-Key: 92e0ee9794d34ac8bb166d2cd3b99a69
+  Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSMjU2In0.eyJjbGllbnRJZCI6IjI0YTE0ZDdiLTU3YjItNDZhNi1iYTVjLTRjMTdmNjI4ZWI5ZSIsImV4cGlyZXMiOiIyMDI1LTEyLTEzVDEyOjIxOjAwLjQyNzEyOTciLCJzZXNzaW9uSWQiOiI5YzBlZDI1OC1jNGUzLTQ4ZTgtOTQ1OS03YzljOGE3N2Y3NWUifQ.Pscg790m3PK4yqks6ycyGQH1ykGXt6nxqP_Fk9R9YNbOVhu5rTPywkrXncpb1rtQ3WAafElhI_36c6BwNjwkZd_XKShC_lMK7LOwWxo9K4Jl86i09nBNnYnhcKOvXLlAsOled2_Rvx8GF04GhRNCY1uN3R7zsl_EGrt6AtwbIhkWqwTPGA8QgPL1y8fIfahJwIN-5L470ELtYQsOWUQPBUJwQTvb7Ua5okDUwdILXEH2AVMsHI8BcKBozWQvuQ1r1xFpZkf4VFAA6vL2Jo_AHQalTIIu-2ioXsKq-akwd0RygFE3Byz3HbR2M9loqQZMnNrV43iWFzSGjIW1-VZ5zQ
+  Content-Type: application/json
+
+Body:
+{
+  "amount": "1000",
+  "currency": "RWF",
+  "externalId": "IMIS_8F40A540",
+  "payer": {
+    "partyIdType": "MSISDN",
+    "partyId": "250796014801"
+  },
+  "payerMessage": "IMIS Contact Unlock Payment",
+  "payeeNote": "Payment for contact information"
+}
+
+RESPONSE:
+---------
+Status Code: 202 Accepted
+
+Headers:
+  Content-Length: 0
+  Strict-Transport-Security: max-age=31536000; includeSubDomains
+  Date: Sat, 13 Dec 2025 09:21:01 GMT
+
+Body: (Empty - as per MTN documentation for 202 response)
+
+Result: ✅ REQUEST ACCEPTED by MTN API
+
+================================================================================
+STEP 3: CHECK PAYMENT STATUS (After 5 seconds)
+================================================================================
+
+REQUEST:
+--------
+Method: GET
+URL: https://proxy.momoapi.mtn.co.rw/collection/v1_0/requesttopay/68d9495b-6050-468e-b03c-419e9c9bbcfe
+
+Headers:
+  X-Target-Environment: mtnrwanda
+  Ocp-Apim-Subscription-Key: 92e0ee9794d34ac8bb166d2cd3b99a69
+  Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSMjU2In0.eyJjbGllbnRJZCI6IjI0YTE0ZDdiLTU3YjItNDZhNi1iYTVjLTRjMTdmNjI4ZWI5ZSIsImV4cGlyZXMiOiIyMDI1LTEyLTEzVDEyOjIxOjAwLjQyNzEyOTciLCJzZXNzaW9uSWQiOiI5YzBlZDI1OC1jNGUzLTQ4ZTgtOTQ1OS03YzljOGE3N2Y3NWUifQ.Pscg790m3PK4yqks6ycyGQH1ykGXt6nxqP_Fk9R9YNbOVhu5rTPywkrXncpb1rtQ3WAafElhI_36c6BwNjwkZd_XKShC_lMK7LOwWxo9K4Jl86i09nBNnYnhcKOvXLlAsOled2_Rvx8GF04GhRNCY1uN3R7zsl_EGrt6AtwbIhkWqwTPGA8QgPL1y8fIfahJwIN-5L470ELtYQsOWUQPBUJwQTvb7Ua5okDUwdILXEH2AVMsHI8BcKBozWQvuQ1r1xFpZkf4VFAA6vL2Jo_AHQalTIIu-2ioXsKq-akwd0RygFE3Byz3HbR2M9loqQZMnNrV43iWFzSGjIW1-VZ5zQ
+
+Body: (None)
+
+RESPONSE:
+---------
+Status Code: 200 OK
+
+Headers:
+  Content-Length: 267
+  Content-Type: application/json;charset=utf-8
+  Strict-Transport-Security: max-age=31536000; includeSubDomains
+  Date: Sat, 13 Dec 2025 09:21:07 GMT
+
+Body:
+{
+  "externalId": "IMIS_8F40A540",
+  "amount": "1000",
+  "currency": "RWF",
+  "payer": {
+    "partyIdType": "MSISDN",
+    "partyId": "250796014801"
+  },
+  "payerMessage": "IMIS Contact Unlock Payment",
+  "payeeNote": "Payment for contact information",
+  "status": "FAILED",
+  "reason": "INTERNAL_PROCESSING_ERROR"
+}
+
+Result: ❌ PAYMENT FAILED - INTERNAL_PROCESSING_ERROR
+
+================================================================================
+SUMMARY
+================================================================================
+
+Reference ID: 68d9495b-6050-468e-b03c-419e9c9bbcfe
+External ID: IMIS_8F40A540
+Merchant: IMS.SP (250796888309)
+Phone Number: 250796014801
+Amount: 1000 RWF
+Currency: RWF
+
+Test Results:
+  ✅ Token Generation: SUCCESS (200 OK)
+  ✅ Request Accepted: SUCCESS (202 Accepted)
+  ❌ Payment Processing: FAILED (INTERNAL_PROCESSING_ERROR)
+  ❌ Customer Notification: NO popup/SMS sent to phone
+
+Issue:
+  MTN API accepts the request (202) but fails during internal processing.
+  No USSD/SMS prompt is sent to the customer's phone.
+  
+  This indicates an issue with MTN's backend payment processing service
+  for merchant account IMS.SP, not with the client's API integration.
+
+Request for MTN:
+  Please check backend logs for reference ID: 68d9495b-6050-468e-b03c-419e9c9bbcfe
+  Investigate why payment processing fails after accepting the request.
+  Verify merchant account IMS.SP is properly configured for requesttopay.
+
+================================================================================
+Contact: MUSABYIMANA Gaudence | +250780460621 | gaudencemusabyimana21@gmail.com
+================================================================================

@@ -1,0 +1,39 @@
+================================================================================
+                    SIMPLE SOLUTION - USE THIS
+================================================================================
+
+The test script has issues. Use this simpler script instead:
+
+    QUICK_DB_SETUP.bat
+
+================================================================================
+
+WHAT IT DOES:
+
+  1. Asks for your PostgreSQL password
+  2. Creates imis database
+  3. Installs PostGIS extension
+  4. Updates backend\.env with encoded password
+  5. Ready to start!
+
+================================================================================
+
+YOUR PASSWORD:
+
+  Bachjudoly@11996
+
+================================================================================
+
+STEPS:
+
+  1. Run: QUICK_DB_SETUP.bat
+  2. Enter password: Bachjudoly@11996
+  3. Wait for "Database Setup Complete!"
+  4. Run: START_WITH_DB.bat
+  5. Open: http://localhost:5173
+
+================================================================================
+
+                    RUN: QUICK_DB_SETUP.bat
+
+================================================================================

@@ -1,0 +1,54 @@
+================================================================================
+                    DATABASE URL ERROR - FIXED!
+================================================================================
+
+ERROR: could not translate host name "11996@localhost"
+
+CAUSE: Your password contains @ symbol which breaks the URL format
+
+SOLUTION: URL-encoded the @ symbol as %40
+
+================================================================================
+
+FIXED IN: backend\.env
+
+OLD (broken):
+  DATABASE_URL=postgresql://postgres:Bachjudoly@11996@localhost:5432/imis
+
+NEW (fixed):
+  DATABASE_URL=postgresql://postgres:Bachjudoly%4011996@localhost:5432/imis
+
+================================================================================
+
+WHAT TO DO NOW:
+
+  1. Close the backend window (the one with errors)
+  2. Run: START_WITH_DB.bat
+  3. Backend will start successfully!
+
+================================================================================
+
+WHY THIS HAPPENED:
+
+PostgreSQL connection URLs use @ to separate credentials from host:
+  postgresql://user:password@host:port/database
+
+Your password "Bachjudoly@11996" contains @, so it was parsed as:
+  - User: postgres
+  - Password: Bachjudoly
+  - Host: 11996@localhost  ← WRONG!
+
+URL-encoding @ as %40 fixes this:
+  - User: postgres
+  - Password: Bachjudoly%4011996  ← Decoded to Bachjudoly@11996
+  - Host: localhost  ← CORRECT!
+
+================================================================================
+
+NOW RUN:
+
+    START_WITH_DB.bat
+
+Backend will connect successfully!
+
+================================================================================

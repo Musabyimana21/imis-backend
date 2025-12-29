@@ -1,0 +1,71 @@
+================================================================================
+                    IMIS WITH FULL DATABASE - START HERE
+================================================================================
+
+IMIS requires PostgreSQL with PostGIS for full functionality.
+
+================================================================================
+
+STEP 1: INSTALL POSTGRESQL (10 minutes)
+
+    Double-click: INSTALL_POSTGRESQL.bat
+
+What happens:
+  1. Opens download page
+  2. You download and install PostgreSQL
+  3. Script creates database
+  4. Installs PostGIS
+  5. Configures IMIS automatically
+
+IMPORTANT: Remember the password you set during installation!
+
+================================================================================
+
+STEP 2: START IMIS (2 minutes)
+
+    Double-click: START_WITH_DB.bat
+
+What happens:
+  1. Installs all packages
+  2. Starts backend with database
+  3. Starts frontend
+  4. Two windows open
+  5. System ready!
+
+================================================================================
+
+STEP 3: USE IMIS
+
+    Open browser: http://localhost:5173
+
+Features:
+  ✓ Register account
+  ✓ Report lost items
+  ✓ Report found items
+  ✓ AI matching
+  ✓ GPS geolocation
+  ✓ Secure messaging
+  ✓ Commission tracking
+  ✓ Admin dashboard
+
+================================================================================
+
+COMPLETE PROCESS:
+
+  1. INSTALL_POSTGRESQL.bat  (first time only)
+  2. START_WITH_DB.bat        (every time)
+  3. http://localhost:5173    (use IMIS)
+
+================================================================================
+
+DOCUMENTATION:
+
+  - SETUP_DATABASE_NOW.txt    (detailed guide)
+  - COMPLETE_SETUP.md          (full documentation)
+  - DATABASE_REQUIRED.txt      (why database needed)
+
+================================================================================
+
+                    START WITH: INSTALL_POSTGRESQL.bat
+
+================================================================================

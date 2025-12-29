@@ -1,0 +1,51 @@
+================================================================================
+                    PASSWORD ERROR - FIX IN 2 STEPS
+================================================================================
+
+ERROR: password authentication failed for user "postgres"
+
+================================================================================
+
+STEP 1: TEST AND FIX PASSWORD
+
+    Run: TEST_DATABASE.bat
+
+  - Enter your PostgreSQL password
+  - It will test the connection
+  - If successful, updates backend\.env automatically
+
+================================================================================
+
+STEP 2: START IMIS
+
+    Run: START_WITH_DB.bat
+
+  - Backend will connect successfully
+  - Frontend will start
+  - System ready!
+
+================================================================================
+
+IF YOU DON'T REMEMBER PASSWORD:
+
+  Option A: Check PostgreSQL installation notes
+  Option B: Reset password (see PASSWORD_AUTH_FAILED.txt)
+  Option C: Reinstall PostgreSQL
+
+================================================================================
+
+QUICK CHECK:
+
+  Is PostgreSQL running?
+  - Open: services.msc
+  - Find: postgresql-x64-15 or postgresql-x64-16
+  - Status: Running
+
+  If not running:
+  - Right-click → Start
+
+================================================================================
+
+                    RUN: TEST_DATABASE.bat
+
+================================================================================
